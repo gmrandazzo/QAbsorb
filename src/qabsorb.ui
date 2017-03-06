@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QAbsorb</class>
+ <widget class="QWidget" name="QAbsorb">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>924</width>
+    <height>573</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QAbsorb</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="2" column="0" colspan="5">
+    <widget class="QTableView" name="tableView"/>
+   </item>
+   <item row="3" column="3">
+    <widget class="QPushButton" name="aboutButton">
+     <property name="minimumSize">
+      <size>
+       <width>110</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>110</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>About</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="4">
+    <widget class="QPushButton" name="quitButton">
+     <property name="minimumSize">
+      <size>
+       <width>110</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>110</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Quit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="5">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="openSMIButton">
+         <property name="text">
+          <string>Open SMILES list</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="1" rowspan="2">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/icons/qabsorb.128x128.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Models</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="pampamodel">
+          <property name="text">
+           <string>HDM-PAMPA (GIT)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="calculateButton">
+     <property name="maximumSize">
+      <size>
+       <width>97</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Calculate</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" colspan="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>383</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>24</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

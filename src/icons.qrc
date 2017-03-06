@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+  <qresource prefix="/">
+    <file>icons/qabsorb.png</file>
+    <file>icons/qabsorb.256x256.png</file>
+    <file>icons/qabsorb.128x128.png</file>
+  </qresource>
+</RCC>
