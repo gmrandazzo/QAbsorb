@@ -80,7 +80,8 @@ class TableModel(QtCore.QAbstractTableModel):
         if index.column() == 0:
             if not index.isValid():
                 return QVariant()
-            pixmap = QPixmap(self.arraydata[index.row()][index.column()])
+            #pixmap = QPixmap(self.arraydata[index.row()][index.column()])
+            pixmap = self.arraydata[index.row()][index.column()]
             if role == Qt.DecorationRole:
                 return pixmap
             if role == Qt.SizeHintRole:

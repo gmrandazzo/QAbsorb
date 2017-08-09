@@ -6,16 +6,25 @@ Usage:
 """
 
 from setuptools import setup
+from glob import glob
 
 APP = ['main.py']
-DATA_FILES = []
-OPTIONS = {'argv_emulation': True}
+APP_NAME = "QAbsorb"
+DATA_FILES = [('../models', glob('../models/*'))]
+OPTIONS = {'argv_emulation': True,
+           'iconfile': 'icons/qabsorb.icns',
+           'plist': {
+               'CFBundleName': APP_NAME,
+               'CFBundleDisplayName': APP_NAME,
+               'CFBundleGetInfoString': "Predict passive gastrointestinal permeability",
+               'CFBundleIdentifier': "com.metaunige.osx.qabsorb",
+               'CFBundleVersion': "0.1.0",
+               'CFBundleShortVersionString': "0.1.0",
+               'NSHumanReadableCopyright': u"Copyright © 2017, Giuseppe Marco Randazzo, All Rights Reserved"
+            }
+          }
 
-setup(name="QAbsorb",
-    version="1.0",
-    author="Giuseppe Marco Randazzo",
-    url="https://github.com/gmrandazzo/QAbsorb",
-    license="LGPLv3",
+setup(
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},

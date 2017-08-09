@@ -16,6 +16,11 @@ from rdkit.ML.Descriptors import MoleculeDescriptors
 from sklearn.externals import joblib
 import numpy as np
 
+def GenQPixmapDepiction(smi, height=200, width=200):
+  molecule = Chem.MolFromSmiles(smi)
+  AllChem.Compute2DCoords(molecule)
+  return Draw.MolToQPixmap(molecule, (height,width))
+
 def GenDepiction(smi,  molname, path, height=200, width=200):
   molecule = Chem.MolFromSmiles(smi)
   AllChem.Compute2DCoords(molecule)
@@ -155,17 +160,7 @@ def MakeDescriptors(mlist, modpath):
       desc.append(str(descrs[x]))
 
     for i in range(len(models)):
-      nvars = None
-      mtype = str(models[i][3].__class__)
-      if mtype == "<class 'sklearn.svm.classes.SVR'>" or mtype == "<class 'sklearn.svm.classes.SVC'>":
-        nvars = models[i][3].shape_fit_[1]
-      elif mtype == "<class 'sklearn.ensemble.weight_boosting.AdaBoostClassifier'>":
-        nvars = len(models[i][3].feature_importances_)
-      else:
-        print("MODEL ERROR!! ", mtype)
-
-      #print len(mdesc[i]), nvars, len(desc)
-
+      nvars =  len(models[i][1])
       if len(mdesc[i]) == nvars:
         scaler = models[i][2]
         clf = models[i][3]
@@ -177,11 +172,18 @@ def MakeDescriptors(mlist, modpath):
           else:
             xdesc.append(float(desc[j]))
         try:
-          desc.append(clf.predict(scaler.transform(np.array(xdesc).reshape(1, -1)))[-1])
+          if models[i][0] == "m3":
+              hdmvalue = float(clf.predict(scaler.transform(np.array(xdesc).reshape(1, -1)))[-1])
+              if hdmvalue <= 0.5: #Permeable
+                desc.append(0)
+              else: #Not permeable
+                desc.append(1)
+          else:
+              desc.append(float(clf.predict(scaler.transform(np.array(xdesc).reshape(1, -1)))[-1]))
         except:
-          desc.append("9999.")
+          desc.append(9999.)
       else:
-        desc.append("9999.")
+        desc.append(9999.)
     matrixdescriptors.append(desc)
 
   return matrixdescriptors
@@ -205,5 +207,11 @@ def GetDescValues(fsmi, modnames, modpath, tabres):
   for i in range(1, len(desc)):
     row = [molname[i-1], smiles[i-1]]
     for j in range(len(resid)):
-      row.append(desc[i][resid[j]])
+      if desc[0][resid[j]] == "m3":
+        if desc[i][resid[j]] == 0:
+            row.append("GIT+")
+        else:
+            row.append("GIT-")
+      else:
+        row.append(desc[i][resid[j]])
     tabres.append(row)
