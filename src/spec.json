@@ -1,0 +1,9 @@
+{
+  "title": "QAbsorb",
+  "background": "resources/dmgbackground.png",
+  "icon-size": 80,
+  "contents": [
+    { "x": 80, "y": 180, "type": "file", "path": "dist/QAbsorb.app" },
+    { "x": 448, "y": 180, "type": "link", "path": "/Applications" }
+  ]
+}

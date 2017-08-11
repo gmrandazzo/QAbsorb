@@ -18,23 +18,13 @@ import gui_qabsorb as qabs
 from molutils import *
 from tabmodel import *
 from aboutdialog import *
+from pathlib import Path
 
 # pyinstaller bug under windows
 #import Tkinter
 #import FileDialog
 
-mpath = None
-#try:
-#    mpath = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-#except NameError:
-#    mpath = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
-#mpath = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
-mpath = os.getcwd()+"/"
-mpath += "../models"
-
-#if not mpath in sys.path:
-#    sys.path.insert(1, mpath)
-#del mpath
+mpath = str(Path(os.path.realpath(__file__)).parent.parent)+"/models"
 
 class QAbsorb(QtWidgets.QWidget, qabs.Ui_QAbsorb):
     def __init__(self, parent=None):
@@ -48,6 +38,7 @@ class QAbsorb(QtWidgets.QWidget, qabs.Ui_QAbsorb):
         self.calculateButton.clicked.connect(self.computemodels)
         #self.pampamodel.stateChanged.connect(self.computemodels)
 
+        self.lineEdit.setText("/Users/marco/projects/QAbsorb/example/natural_products.smi")
         self.tablemodel = TableModel(self)
         self.tableView.setModel(self.tablemodel)
         self.tableView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
@@ -129,8 +120,8 @@ class QAbsorb(QtWidgets.QWidget, qabs.Ui_QAbsorb):
             del self.tablemodel.header[:]
             self.tablemodel.clean()
             self.tableView.model().layoutChanged.emit()
-            header = ["Depiction", "Name"]
-            mtoget = []
+            header = ["Depiction", "Name", "MolLogP"]
+            mtoget = ["MolLogP"]
             if self.pampamodel.isChecked():
                 header.append("HDM-PAMPA (GIT+: Permeable; GIT-: Not permeable)")
                 mtoget.append("m3")
@@ -138,6 +129,7 @@ class QAbsorb(QtWidgets.QWidget, qabs.Ui_QAbsorb):
             header.append("SMILE")
 
             tabres = []
+
             th = threading.Thread(target = self.getdesc_, args=(mtoget, mpath, tabres,))
             th.start()
 
@@ -154,7 +146,7 @@ class QAbsorb(QtWidgets.QWidget, qabs.Ui_QAbsorb):
                 row = [GenQPixmapDepiction(tabres[i][1]), tabres[i][0]]
                 for j in range(2, len(tabres[i])):
                     try:
-                      row.append(round(tabres[i][j], 2))
+                      row.append(round(float(tabres[i][j]), 2))
                     except:
                       row.append(tabres[i][j])
                 row.append(tabres[i][1])

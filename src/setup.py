@@ -8,10 +8,15 @@ Usage:
 from setuptools import setup
 from glob import glob
 
+from os import getcwd
+from pathlib import Path
+
 APP = ['main.py']
 APP_NAME = "QAbsorb"
 DATA_FILES = [('../models', glob('../models/*'))]
 OPTIONS = {'argv_emulation': True,
+           'bdist_base': str(Path(getcwd()).parent) + '/build',
+           'dist_dir': str(Path(getcwd()).parent) +'/dist',
            'iconfile': 'icons/qabsorb.icns',
            'plist': {
                'CFBundleName': APP_NAME,

@@ -7,21 +7,38 @@ and is distributed under LGPL version 3
 Geneve November 2016
 '''
 
+import os
+import tempfile
+import shutil
+import jsonpickle
+import jsonpickle.ext.numpy as jsonpickle_numpy
+
 def LoadModels(modpath):
   files = os.listdir(modpath)
   models = []
+
   for f in files:
     try:
-      if os.path.isdir("%s/%s" % (modpath, f)) == True:
-        vlst = []
-        fi = open("%s/%s/varnames.txt" % (modpath, f), "r")
-        for line in fi:
-          vlst.append(line.strip())
-        fi.close()
-        models.append([f, vlst, joblib.load('%s/%s/scaler.pkl' % (modpath,f)), joblib.load('%s/%s//model.pkl' % (modpath,f))])
-      else:
-        continue
+      vlst = []
+      fi = open("%s/%s/varnames.txt" % (modpath, f), "r")
+      for line in fi:
+        vlst.append(line.strip())
+      fi.close()
+      scaler = None
+      clf = None
+      jsonpickle_numpy.register_handlers()
+
+      str_ = open('%s/%s/scaler.pkl' % (modpath,f)).read()
+      scaler = jsonpickle.decode(str_)
+
+      str_ = open('%s/%s/model.pkl' % (modpath,f)).read()
+      clf = jsonpickle.decode(str_)
+
+      #scaler = joblib.load('%s/%s/scaler.pkl' % (modpath,f))
+      #clf = joblib.load('%s/%s/model.pkl' % (modpath,f))
+      models.append([f, vlst, scaler, clf])
     except:
+      print("Error while importing the model! ")
       continue
   # Generate dependency list
   i = 0
@@ -43,5 +60,4 @@ def LoadModels(modpath):
       i+=1
     else:
       i = 0
-
   return models

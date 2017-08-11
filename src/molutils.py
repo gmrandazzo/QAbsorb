@@ -13,8 +13,9 @@ from rdkit.Chem import AllChem
 from rdkit.Chem import Descriptors
 from rdkit.Chem import Draw
 from rdkit.ML.Descriptors import MoleculeDescriptors
-from sklearn.externals import joblib
 import numpy as np
+
+from modelutils import *
 
 def GenQPixmapDepiction(smi, height=200, width=200):
   molecule = Chem.MolFromSmiles(smi)
@@ -30,44 +31,6 @@ def GenDepiction(smi,  molname, path, height=200, width=200):
   imagePath = path+"/"+imgname
   Draw.MolToFile(molecule, imagePath, (height,width))
   return imagePath
-
-def LoadModels(modpath):
-  files = os.listdir(modpath)
-  models = []
-  for f in files:
-    try:
-      if os.path.isdir("%s/%s" % (modpath, f)) == True:
-        vlst = []
-        fi = open("%s/%s/varnames.txt" % (modpath, f), "r")
-        for line in fi:
-          vlst.append(line.strip())
-        fi.close()
-        models.append([f, vlst, joblib.load('%s/%s/scaler.pkl' % (modpath,f)), joblib.load('%s/%s//model.pkl' % (modpath,f))])
-      else:
-        continue
-    except:
-      continue
-  # Generate dependency list
-  i = 0
-  while i < len(models):
-    swap = False
-    for j in range(i, len(models)):
-      try:
-        models[i][1].index(models[j][0])
-        # the model i is dependent on the model j
-        # Thus we swap the last model with this one
-        swp = models[-1]
-        models[-1] = models[i]
-        models[i] = swp
-        swap = True
-        break
-      except:
-        continue
-    if swap == False:
-      i+=1
-    else:
-      i = 0
-  return models
 
 def LoadSMILES(fmolsmi):
   mlist = []
@@ -131,11 +94,11 @@ def MakeDescriptors(mlist, modpath):
   models = LoadModels(modpath)
   calc = MoleculeDescriptors.MolecularDescriptorCalculator(nms)
   matrixdescriptors = []
-  rowname= ["Molecule"]
+  rowname = ["Molecule"]
   for item in nms:
     rowname.append(str(item))
-  modnames = []
 
+  modnames = []
   for i in range(len(models)):
     rowname.append(models[i][0])
     modnames.append(models[i][0])
@@ -149,6 +112,7 @@ def MakeDescriptors(mlist, modpath):
       except:
         print("Descriptor %s not found " % (models[i][1][j]))
         continue
+
   matrixdescriptors.append(rowname)
   for m in mlist:
     desc = []
@@ -199,7 +163,7 @@ def GetDescValues(fsmi, modnames, modpath, tabres):
 
   for i in range(len(modnames)):
     try:
-      indx = desc[0].index(modnames[i])
+      indx = header.index(modnames[i])
       resid.append(indx)
     except:
       print("Model %s not found!" % (modnames[i]))
