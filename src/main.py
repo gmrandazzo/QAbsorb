@@ -38,7 +38,7 @@ class QAbsorb(QtWidgets.QWidget, qabs.Ui_QAbsorb):
         self.calculateButton.clicked.connect(self.computemodels)
         #self.pampamodel.stateChanged.connect(self.computemodels)
 
-        self.lineEdit.setText("/Users/marco/projects/QAbsorb/example/natural_products.smi")
+        #self.lineEdit.setText("/Users/marco/projects/QAbsorb/example/natural_products.smi")
         self.tablemodel = TableModel(self)
         self.tableView.setModel(self.tablemodel)
         self.tableView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
