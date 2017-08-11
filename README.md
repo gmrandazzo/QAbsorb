@@ -31,14 +31,13 @@ Requrements:
 - RDKit
 - Scikit-Learn >= 18.x
 
-pip install jsonpickle
-pip install PyQt5
-pip install scikit-learn
-
-install rdkit with python support (i.e. homebrew osx: brew install rdkit; fedora: dnf install rdkit-python; window use [Anaconda](https://docs.continuum.io/anaconda/install.html) ) 
-
-git clone https://github.com/gmrandazzo/QAbsorb.git
-python QAbsorb/src/main.py
+How to install:
+- pip install jsonpickle
+- pip install PyQt5
+- pip install scikit-learn
+- install rdkit with python support (i.e. homebrew osx: brew install rdkit; fedora: dnf install rdkit-python; window use [Anaconda](https://docs.continuum.io/anaconda/install.html) ) 
+- git clone https://github.com/gmrandazzo/QAbsorb.git
+- python QAbsorb/src/main.py
 Good luck!
 
 <!--
